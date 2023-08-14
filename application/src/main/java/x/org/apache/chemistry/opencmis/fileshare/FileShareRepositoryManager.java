@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.chemistry.opencmis.fileshare;
+package x.org.apache.chemistry.opencmis.fileshare;
 
 import java.util.Collection;
 import java.util.HashMap;

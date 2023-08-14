@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.chemistry.opencmis.fileshare;
+package x.org.apache.chemistry.opencmis.fileshare;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -33,6 +33,8 @@ import org.apache.chemistry.opencmis.server.support.wrapper.ConformanceCmisServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.chemistry.opencmis.fileshare.FileShareUserManager;
+import org.apache.chemistry.opencmis.fileshare.FileShareTypeManager;
 /**
  * FileShare Service Factory.
  */
@@ -105,7 +107,7 @@ public class FileShareCmisServiceFactory extends AbstractServiceFactory {
         // authenticate the user
         // if the authentication fails, authenticate() throws a
         // CmisPermissionDeniedException
-        userManager.authenticate(context);
+        // userManager.authenticate(context);
 
         // get service object for this thread
         CallContextAwareCmisService service = threadLocalService.get();

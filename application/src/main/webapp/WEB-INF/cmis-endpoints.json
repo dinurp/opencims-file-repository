@@ -1,0 +1,20 @@
+{
+  "endpoints": [
+    {
+      "displayName": "OpenCMIS CMIS 1.1 Browser Binding", 
+      "binding": "browser",
+      "cmisVersion": "1.1", 
+      "cookies": "no", 
+      "compression": "server", 
+      "url": "{webapp}/browser", 
+      "authentication": [
+        {
+          "displayName": "OAuth2 Bearer Token", 
+          "type": "bearer", 
+          "preference": 1, 
+          "documentationUrl": "https://chemistry.apache.org/java/opencmis.html"
+        }
+      ]
+    }
+  ]
+}

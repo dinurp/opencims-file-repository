@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.chemistry.opencmis.fileshare;
+package x.org.apache.chemistry.opencmis.fileshare;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -89,7 +89,7 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExists
 import org.apache.chemistry.opencmis.commons.exceptions.CmisInvalidArgumentException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisNameConstraintViolationException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
+//import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisStorageException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisStreamNotSupportedException;
@@ -136,6 +136,10 @@ import org.apache.chemistry.opencmis.commons.spi.Holder;
 import org.apache.chemistry.opencmis.server.impl.ServerVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.chemistry.opencmis.fileshare.FileShareTypeManager;
+import org.apache.chemistry.opencmis.fileshare.FileShareUtils;
+import org.apache.chemistry.opencmis.fileshare.ContentRangeInputStream;
 
 /**
  * Implements all repository operations.
@@ -2135,22 +2139,24 @@ public class FileShareRepository {
     /**
      * Checks if the user in the given context is valid for this repository and
      * if the user has the required permissions.
+     * @TODO #MODIFIED
      */
     private boolean checkUser(CallContext context, boolean writeRequired) {
-        if (context == null) {
-            throw new CmisPermissionDeniedException("No user context!");
-        }
+        // if (context == null) {
+        //     throw new CmisPermissionDeniedException("No user context!");
+        // }
 
-        Boolean readOnly = readWriteUserMap.get(context.getUsername());
-        if (readOnly == null) {
-            throw new CmisPermissionDeniedException("Unknown user!");
-        }
+        // Boolean readOnly = readWriteUserMap.get(context.getUsername());
+        // if (readOnly == null) {
+        //     throw new CmisPermissionDeniedException("Unknown user!");
+        // }
 
-        if (readOnly.booleanValue() && writeRequired) {
-            throw new CmisPermissionDeniedException("No write permission!");
-        }
+        // if (readOnly.booleanValue() && writeRequired) {
+        //     throw new CmisPermissionDeniedException("No write permission!");
+        // }
 
-        return readOnly.booleanValue();
+        // return readOnly.booleanValue();
+        return true;
     }
 
     /**
@@ -2188,8 +2194,23 @@ public class FileShareRepository {
             return root;
         }
 
-        return new File(root, (new String(Base64.decode(id.getBytes("US-ASCII")), "UTF-8")).replace('/',
-                File.separatorChar));
+        String path = null; 
+        try {
+            path = new String(Base64.decode(id.getBytes("US-ASCII")), "UTF-8");
+        } catch (Exception ex) {
+            //is the id URI encoded? 
+            try{ 
+                String decodedId = java.net.URLDecoder.decode(id,"US-ASCII");
+                path = new String(Base64.decode(decodedId.getBytes("US-ASCII")), "UTF-8");
+                LOG.warn("Using URL decoded value for Id: {} from {} ", decodedId, id);
+             } 
+            catch (Exception newEx) {
+                LOG.error("Invalid format for Id: {}", id, ex);
+                throw ex;
+            }
+        }
+        return new File(root, path.replace('/',File.separatorChar));
+
     }
 
     /**
