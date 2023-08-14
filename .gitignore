@@ -1,0 +1,15 @@
+**/credentials.*
+**/target/
+**/*.log
+**/*.trc
+**/.settings/
+**/.project
+**/.classpath
+**/.idea
+**/*.iml
+**/.vscode
+**/node_modules
+**/.DS_Store
+.pipeline/commonPipelineEnvironment
+
+*.env

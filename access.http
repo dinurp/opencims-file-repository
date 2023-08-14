@@ -1,0 +1,11 @@
+
+###
+# @name hello_with_no_auth
+# @expect_status 401
+GET {{app_url}}/hello
+
+###
+# @name hello_get_with_auth
+# @expect_status 200
+GET {{app_url}}/hello
+Authorization: {{authorization}}
