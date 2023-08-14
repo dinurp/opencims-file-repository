@@ -9,3 +9,22 @@ GET {{app_url}}/hello
 # @expect_status 200
 GET {{app_url}}/hello
 Authorization: {{authorization}}
+
+
+###
+# @name root_with_no_auth
+# @expect_status 400
+GET {{app_url}}
+
+
+###
+# @name beowser_with_no_auth
+# @expect_status 401
+GET {{app_url}}/browser
+
+
+###
+# @name browser_get_with_auth
+# @expect_status 200
+GET {{app_url}}/browser
+Authorization: {{authorization}}  
