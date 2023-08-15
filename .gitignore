@@ -13,3 +13,4 @@
 .pipeline/commonPipelineEnvironment
 
 *.env
+mta_archives/

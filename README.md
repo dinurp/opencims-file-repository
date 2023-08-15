@@ -23,10 +23,22 @@ Run `mvn package` from command line to build.
 The package for deployment will be built as `application/target/file-repository-application.war`. This can be deployed to Cloud Foundry 
 runtime on SAP BTP using [SAP Java Buildpack on tomcat runtime](https://help.sap.com/docs/btp/sap-business-technology-platform/tomcat).
 
-You can download the built file from [releases](releases/latest).
+Additionally, mtar pacakge can be built with command `mbt build`. 
+This needs installation of [Cloud MTA Build Tools](https://sap.github.io/cloud-mta-build-tool/download/) in addition.
+
+You can download the built mtar package from [releases](releases/latest).
 
 ## Notes for Deployment
 Deployment requires `cf` CLI. 
+
+The mtar package can be deployed with [multiapps](https://github.com/cloudfoundry/multiapps-cli-plugin#download-and-installation) plugin. The mtar file coudl be built locally or dowloaded from [releases](releases/latest).
+```
+cf deploy <path>/opencmis-file-repository_1.0.0.mtar
+```
+You could also deploy the released file directly with following expermental option:
+```
+echo "https://github.com/dinurp/opencims-file-repository/releases/latest/opencmis-file-repository_1.0.0.mtar" | cf deploy
+```
 
 The package is built for deployment to `SAP Java Buildpack tomcat runtime`. 
 The cf deployment [manifest](manifest.yml) is for deploying this package to 

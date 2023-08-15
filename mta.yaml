@@ -1,0 +1,88 @@
+_schema-version: '3.1'
+ID: opencmis-file-repository
+version: 1.0.0
+description: "An adaptation of OpenCMIS Fileshare Repository SAP BTP Cloud Foundry environment."
+parameters:
+  enable-parallel-deployments: true
+modules:
+# --------------------- SERVER MODULE ------------------------
+  - name: file-repository
+# ------------------------------------------------------------
+    type: java
+    path: application
+    parameters:
+      memory: 1024M
+      disk-quota: 512M
+      buildpack: sap_java_buildpack
+      keep-existing:
+        routes: true
+        env: true
+    properties:
+        TARGET_RUNTIME: 'tomcat'
+        SET_LOGGING_LEVEL: '{ROOT: INFO}'
+        JBP_CONFIG_SAPJVM_MEMORY_SIZES: 'metaspace:128m..'
+        JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
+        JBP_CONFIG_SAP_MACHINE_JRE: '{ version: 17.+ }'    
+    build-parameters:
+      builder: custom
+      commands:
+        - mvn clean package -DskipTests=true
+      build-result: target/file-repository-application.war
+    requires:
+      - name: app-log-lite
+      - name: file-repository-xuaa
+    provides:
+      - name: file-repository-url
+        properties:
+          url: '${default-url}'
+
+
+# ---- destination for attachments in process automation -----
+  - name: file-repository-dest-content
+# ------------------------------------------------------------
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: file-repository-dest
+        parameters:
+          content-target: true
+      - name: file-repository-xuaa
+        parameters:
+          service-key:
+            name: sbpa-destination-${timestamp}
+            config:
+              xsuaa:
+                credential-type: binding
+      - name: file-repository-url
+    parameters:
+      content:
+        subaccount:
+          existing_destinations_policy: update
+          destinations:
+            - Name: sap_process_automation_document_store
+              Description: Automatically created & updated to openCMIS fileshare repository
+              URL: ~{file-repository-url/url}/browser/test
+              Authentication: OAuth2UserTokenExchange
+              TokenServiceInstanceName: file-repository-xuaa
+              TokenServiceKeyName: sbpa-destination-${timestamp}
+
+# --------------------- RESOURCES ---------------------
+resources:
+# -----------------------------------------------------
+  - name: file-repository-xuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+  - name: app-log-lite
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
+  - name: file-repository-dest
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: destination
