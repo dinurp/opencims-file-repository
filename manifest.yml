@@ -16,5 +16,5 @@ applications:
     JBP_CONFIG_SAP_MACHINE_JRE: "{ version: 17.+ }"
   services:
   - app-log-lite
-  - approuter-demo-uaa
+  - file-repository-xuaa
 

@@ -13,7 +13,7 @@ Authorization: {{authorization}}
 
 ###
 # @name root_with_no_auth
-# @expect_status 400
+# @expect_status 200
 GET {{app_url}}
 
 ###
@@ -37,7 +37,7 @@ Authorization: {{authorization}}
 
 ###
 # @name CMIS_create_folder
-# @expect_status 200
+# @expect_status 201
 POST {{app_url}}/browser/test/root
 Authorization: {{authorization}}
 content-type: multipart/form-data; boundary=WebKitFormBoundary
@@ -74,7 +74,7 @@ Authorization: {{authorization}}
 
 ###
 # @name CMIS_create_document
-# @expect_status 200
+# @expect_status 201
 POST {{app_url}}/browser/test/root/test
 Authorization: {{authorization}}
 content-type: multipart/form-data; boundary=WebKitFormBoundary
@@ -120,7 +120,7 @@ Authorization: {{authorization}}
 
 ###
 # @name CMIS_create_folder_2
-# @expect_status 200
+# @expect_status 201
 POST {{app_url}}/browser/test/root
 Authorization: {{authorization}}
 content-type: multipart/form-data; boundary=WebKitFormBoundary
@@ -151,7 +151,7 @@ TestFolder-2656-90
 # @name CMIS_create_document_2
 # request from process automation 
 # objectId is encoded twice
-# @expect_status 200
+# @expect_status 201
 POST {{app_url}}/browser/test/root?objectId=L1Rlc3RGb2xkZXItMjY1Ni05MA%253d%253d
 Authorization: {{authorization}}
 content-type: multipart/form-data; boundary=WebKitFormBoundary

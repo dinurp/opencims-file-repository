@@ -1,0 +1,75 @@
+{
+    "xsappname": "file-repository-uaa",
+    "tenant-mode": "dedicated",
+    "description": "OpenCMIS Fileshare Repository",
+    "scopes": [
+        {
+            "name": "uaa.user",
+            "description": "UAA"
+        },
+        {
+            "name": "$XSAPPNAME.end_user",
+            "description": "Business User"
+        },
+        {
+            "name": "$XSAPPNAME.administrator",
+            "description": "Administrator"
+        },
+        {
+            "name": "$XSAPPNAME.key_user",
+            "description": "Key User"
+        }
+    ],
+    "role-templates": [
+    {
+      "name": "BusinessUser",
+      "description": "Business User",
+      "scope-references": [
+        "uaa.user",
+        "$XSAPPNAME.end_user"
+      ]
+    },
+    {
+      "name": "KeyUser",
+      "description": "Key User",
+      "scope-references": [
+        "uaa.user",
+        "$XSAPPNAME.end_user",
+        "$XSAPPNAME.key_user"
+      ]
+    },
+    {
+    "name": "Administrator",
+    "description": "Administrator",
+    "scope-references": [
+        "uaa.user",
+        "$XSAPPNAME.administrator"
+        ]
+    }],
+    "role-collections": [
+      {
+        "name": "BusinessUser",
+        "description": "Business User",
+        "role-template-references": ["$XSAPPNAME.BusinessUser"]
+      },
+      {
+        "name": "KeyUser",
+        "description": "Key User",
+        "role-template-references": ["$XSAPPNAME.KeyUser"]
+      },
+      {
+      "name": "Administrator",
+      "description": "Administrator",
+      "role-template-references": ["$XSAPPNAME.Administrator"]
+      }],    
+    "oauth2-configuration": {
+        "grant-types": [
+          "authorization_code", 
+          "refresh_token" 
+        ],
+        "autoapprove": "true",
+        "system-attributes": [],
+        "credential-types": ["binding-secret","x509"]
+    }
+    
+  }
