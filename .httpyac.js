@@ -11,32 +11,5 @@ module.exports = {
 	  return api.getHookCancel();
       }
     });
-    api.hooks.onResponse.addHook('expect status', function (response,context) {
-	const { httpRegion, scriptConsole } = context;
-	const expected = (httpRegion.metaData.expect_status);
-	const statusCode = response.statusCode;
-	if (!expected) return;
-
-	//https://github.com/AnWeber/httpyac/blob/main/src/utils/testUtils.ts
-	if (!httpRegion.testResults) {
-	    httpRegion.testResults = [];
-	}
-	const testResult = (statusCode == expected)
-	?{  message: `Got expected status ${expected}`, result: true }
-	:{  message: `Expected status ${expected}, got ${statusCode}`, result: false };
-	if (! testResult.result ) {
-	    testResult.error = { 
-		displayMessage : testResult.message,
-		error : new Error(testResult.message),
-	    }
-	}
-	httpRegion.testResults.push(testResult);
-	scriptConsole?.logTest?.(
-	    testResult.result,
-	    testResult.result
-		? `\u001b[32m✓ ${testResult.message}\u001b[0m`
-		: `\u001b[31m✖ ${testResult.message}\u001b[0m`
-	);
-    });
   }
 }

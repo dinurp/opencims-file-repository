@@ -4,23 +4,29 @@
 # @expect_status 401
 GET {{app_url}}/hello
 
+?? status == 401
+
 ###
 # @name hello_get_with_auth
 # @expect_status 200
 GET {{app_url}}/hello
 Authorization: {{authorization}}
 
+?? status == 200
 
 ###
 # @name root_with_no_auth
 # @expect_status 200
 GET {{app_url}}
 
+?? status == 200
+
 ###
 # @name beowser_with_no_auth
 # @expect_status 401
 GET {{app_url}}/browser
 
+?? status == 401
 
 ###
 # @name browser_get_with_auth
@@ -28,12 +34,15 @@ GET {{app_url}}/browser
 GET {{app_url}}/browser
 Authorization: {{authorization}}  
 
+?? status == 200
+
 ###
 # @name CMIS_list_root
 # @expect_status 200
 GET {{app_url}}/browser/test/root/
 Authorization: {{authorization}}
 
+?? status == 200
 
 ###
 # @name CMIS_create_folder
@@ -64,6 +73,7 @@ Content-Disposition: form-data; name="propertyValue[1]"
 test
 --WebKitFormBoundary--
 
+?? status == 201
 
 ###
 # @name CMIS_list_test
@@ -71,6 +81,7 @@ test
 GET {{app_url}}/browser/test/root/test
 Authorization: {{authorization}}
 
+?? status == 200
 
 ###
 # @name CMIS_create_document
@@ -111,12 +122,15 @@ Content-Transfer-Encoding: binary
 Hello World!
 --WebKitFormBoundary--
 
+?? status == 201
 
 ###
 # @name CMIS_get_hello.txt
 # @expect_status 200
 GET {{app_url}}/browser/test/root/test/hello.txt
 Authorization: {{authorization}}
+
+?? status == 200
 
 ###
 # @name CMIS_create_folder_2
@@ -146,6 +160,8 @@ Content-Disposition: form-data; name="propertyValue[1]"
 
 TestFolder-2656-90
 --WebKitFormBoundary--
+
+?? status == 201
 
 ###
 # @name CMIS_create_document_2
@@ -188,3 +204,4 @@ Content-Transfer-Encoding: binary
 Hello World!
 --WebKitFormBoundary--
 
+?? status == 201
