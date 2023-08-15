@@ -26,18 +26,18 @@ runtime on SAP BTP using [SAP Java Buildpack on tomcat runtime](https://help.sap
 Additionally, mtar pacakge can be built with command `mbt build`. 
 This needs installation of [Cloud MTA Build Tools](https://sap.github.io/cloud-mta-build-tool/download/) in addition.
 
-You can download the built mtar package from [releases](releases/latest).
+You can download the built mtar package from [releases](../../releases/latest).
 
 ## Notes for Deployment
 Deployment requires `cf` CLI. 
 
-The mtar package can be deployed with [multiapps](https://github.com/cloudfoundry/multiapps-cli-plugin#download-and-installation) plugin. The mtar file coudl be built locally or dowloaded from [releases](releases/latest).
+The mtar package can be deployed with [multiapps](https://github.com/cloudfoundry/multiapps-cli-plugin#download-and-installation) plugin. The mtar file coudl be built locally or dowloaded from [releases](../../releases/latest).
 ```
 cf deploy <path>/opencmis-file-repository_1.0.0.mtar
 ```
 You could also deploy the released file directly with following expermental option:
 ```
-echo "https://github.com/dinurp/opencims-file-repository/releases/latest/opencmis-file-repository_1.0.0.mtar" | cf deploy
+echo "https://github.com/dinurp/opencims-file-repository/releases/download/v1.0.0/opencmis-file-repository_1.0.0.mtar" | cf deploy
 ```
 
 The package is built for deployment to `SAP Java Buildpack tomcat runtime`. 
